@@ -24,12 +24,13 @@ class ViewController: UIViewController {
     
     var filePath: String {
         //1 - manager lets you examine contents of a files and folders in your app; creates a directory to where we are saving it
-        let manager = FileManager.default
+        let fileManager = FileManager()
         //2 - this returns an array of urls from our documentDirectory and we take the first path
-        let url = manager.urls(for: .documentDirectory, in: .userDomainMask).first
-        print("this is the url path in the documentDirectory \(String(describing: url))")
+        guard let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else { fatalError("Can't find Documents directory for User domain") }
+
+        print("path to data file: \(url.path)")
         //3 - creates a new path component and creates a new file called "Data" which is where we will store our Data array.
-        return (url!.appendingPathComponent("Data").path)
+        return (url.appendingPathComponent("keyedArchiverData.plist").path)
     }
     
     private func saveData(item: ShoppingItem) {
