@@ -17,8 +17,8 @@ class ViewController: UIViewController {
     @IBAction func submitBtnTapped(_ sender: Any) {
         if let text = itemTextfield.text, text.isEmpty == false {
             let newShoppingListItem = ShoppingItem(name: text)
-                self.saveData(item: newShoppingListItem)
-            }
+            self.saveData(item: newShoppingListItem)
+        }
         
     }
     
@@ -36,42 +36,37 @@ class ViewController: UIViewController {
     private func saveData(item: ShoppingItem) {
         self.store.shoppingItems.append(item)
         
-        //4 - nskeyedarchiver is going to look in every shopping list class and look for encode function and is going to encode our data and save it to our file path.  This does everything for encoding and decoding.
+        //4 - nskeyedarchiver is going to look in every shopping list class and look for encode function and is going
+        // to encode our data and save it to our file path.  This does everything for encoding and decoding.
         //5 - archive root object saves our array of shopping items (our data) to our filepath url
-        //        NSKeyedArchiver.archiveRootObject(self.store.shoppingItems, toFile: filePath)
         do {
-            NSKeyedArchiver.setClassName("ShoppingItem", for: ShoppingItem.self)
-
             let archivedData = try NSKeyedArchiver.archivedData(withRootObject: self.store.shoppingItems, requiringSecureCoding: false)
             try archivedData.write(to: URL(fileURLWithPath: self.filePath))
         } catch {
-            print("ERROR: \(error)")
+            fatalError(error.localizedDescription)
         }
     }
     
     private func loadData() {
-        //6 - if we can get back our data from our archives (load our data), get our data along our file path and cast it as an array of ShoppingItems
+        //6 - if we can get back our data from our archives (load our data), get our data along our
+        // file path and cast it as an array of ShoppingItems
+        if FileManager.default.fileExists(atPath: filePath) == false { return }
         do {
-            NSKeyedUnarchiver.setClass(ShoppingItem.self, forClassName: "ShoppingItem")
-            let archivedData = try Data(contentsOf: URL(fileURLWithPath: self.filePath))
+            let fileURL = URL(fileURLWithPath: self.filePath)
+
+            let archivedData = try Data(contentsOf: fileURL)
             if let ourData = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, ShoppingItem.self], from: archivedData) as? [ShoppingItem] {
                 self.store.shoppingItems = ourData
             }
-            //            if let ourData = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? [ShoppingItem] {
-            //                self.store.shoppingItems = ourData
-            //            }
         } catch {
-            print("ERROR: \(error)")
+            fatalError(error.localizedDescription)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadData()
+        self.loadData()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-
-
 }
-
