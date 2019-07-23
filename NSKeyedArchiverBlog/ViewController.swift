@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         let manager = FileManager.default
         //2 - this returns an array of urls from our documentDirectory and we take the first path
         let url = manager.urls(for: .documentDirectory, in: .userDomainMask).first
-        print("this is the url path in the documentDirectory \(url)")
+        print("this is the url path in the documentDirectory \(String(describing: url))")
         //3 - creates a new path component and creates a new file called "Data" which is where we will store our Data array.
         return (url!.appendingPathComponent("Data").path)
     }
@@ -39,16 +39,32 @@ class ViewController: UIViewController {
         
         //4 - nskeyedarchiver is going to look in every shopping list class and look for encode function and is going to encode our data and save it to our file path.  This does everything for encoding and decoding.
         //5 - archive root object saves our array of shopping items (our data) to our filepath url
-        NSKeyedArchiver.archiveRootObject(self.store.shoppingItems, toFile: filePath)
+        //        NSKeyedArchiver.archiveRootObject(self.store.shoppingItems, toFile: filePath)
+        do {
+            NSKeyedArchiver.setClassName("ShoppingItem", for: ShoppingItem.self)
+
+            let archivedData = try NSKeyedArchiver.archivedData(withRootObject: self.store.shoppingItems, requiringSecureCoding: false)
+            try archivedData.write(to: URL(fileURLWithPath: self.filePath))
+        } catch {
+            print("ERROR: \(error)")
+        }
     }
     
     private func loadData() {
         //6 - if we can get back our data from our archives (load our data), get our data along our file path and cast it as an array of ShoppingItems
-        if let ourData = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? [ShoppingItem] {
-            self.store.shoppingItems = ourData
+        do {
+            NSKeyedUnarchiver.setClass(ShoppingItem.self, forClassName: "ShoppingItem")
+            let archivedData = try Data(contentsOf: URL(fileURLWithPath: self.filePath))
+            if let ourData = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, ShoppingItem.self], from: archivedData) as? [ShoppingItem] {
+                self.store.shoppingItems = ourData
+            }
+            //            if let ourData = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? [ShoppingItem] {
+            //                self.store.shoppingItems = ourData
+            //            }
+        } catch {
+            print("ERROR: \(error)")
         }
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

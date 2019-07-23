@@ -1,0 +1,63 @@
+
+#include "1XcodeWarnings.xcconfig"
+
+//TIP: run a build of your project with `-DAPI_TO_BE_DEPRECATED=10_14` in your CFLAGS. (Substitute 10_14 with your deploy target as needed.)
+//This gives you a preview of APIs that are soft deprecated and may be hard deprecated in the future, and many of them come with fix-its now.
+OTHER_CFLAGS = -DAPI_TO_BE_DEPRECATED=12_2
+
+TARGETED_DEVICE_FAMILY = 1,2
+
+SDKROOT = iphoneos
+
+IPHONEOS_DEPLOYMENT_TARGET = 12.2
+
+PRODUCT_NAME = $(TARGET_NAME)
+
+PRODUCT_BUNDLE_PREFIX = com.iliosinc
+
+//LD_RUNPATH_SEARCH_PATHS = @executable_path/Frameworks
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks @loader_path/Frameworks
+
+INFOPLIST_FILE = $(PRODUCT_NAME)/Info.plist
+
+CLANG_ENABLE_MODULES = YES
+CLANG_ENABLE_OBJC_ARC = YES
+
+COMBINE_HIDPI_IMAGES = YES
+
+SWIFT_VERSION = 5.0
+
+// Code Signing Identity
+CODE_SIGN_IDENTITY = iPhone Developer
+CODE_SIGN_STYLE = Automatic
+DEVELOPMENT_TEAM = 2WW9KC8P4G
+PROVISIONING_PROFILE_SPECIFIER =
+
+// C++ Language Dialect
+// Choose a standard or non-standard C++ language dialect.
+// * *Compiler Default:* Tells the compiler to use its default C++ language dialect. This
+// is normally the best choice unless you have specific needs. (Currently equivalent to
+// GNU++98.)
+CLANG_CXX_LANGUAGE_STANDARD = compiler-default
+
+// C++ Standard Library
+// Choose a version of the C++ standard library to use.
+// * *libstdc++:* A traditional C++ standard library that works with GCC and the LLVM
+// Compiler (default).
+CLANG_CXX_LIBRARY = compiler-default
+
+// C Language Dialect
+//
+// Choose a standard or non-standard C language dialect.
+// * *Compiler Default:* Tells the compiler to use its default C language dialect. This
+// is normally the best choice unless you have specific needs. (Currently equivalent to
+// GNU99.)
+GCC_C_LANGUAGE_STANDARD = compiler-default
+
+// Always Search User Paths (Deprecated)
+//
+// This setting is deprecated as of Xcode 8.3 and may not be supported in future
+// versions. It is recommended that you disable the setting.
+// For backwards compatibility reasons, this setting is enabled by default. Disabling it
+// is strongly recommended.
+ALWAYS_SEARCH_USER_PATHS = NO

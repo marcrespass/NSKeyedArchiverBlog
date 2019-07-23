@@ -9,7 +9,9 @@
 import Foundation
 
 //1 - Adopt the NSObject and NSCoding protocols
-class ShoppingItem: NSObject, NSCoding {
+class ShoppingItem: NSObject, NSSecureCoding {
+    static var supportsSecureCoding: Bool = true
+
     
     //5 - A safe way of naming my decoder key(s)
     struct Keys {
