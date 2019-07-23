@@ -15,12 +15,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var itemTextfield: UITextField!
     
     @IBAction func submitBtnTapped(_ sender: Any) {
-        if itemTextfield.text != "" {
-            if let unwrappedText = itemTextfield.text {
-                let newShoppingListItem = ShoppingItem(name: unwrappedText)
+        if let text = itemTextfield.text, text.isEmpty == false {
+            let newShoppingListItem = ShoppingItem(name: text)
                 self.saveData(item: newShoppingListItem)
             }
-        }
         
     }
     
