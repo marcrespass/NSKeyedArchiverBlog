@@ -26,10 +26,7 @@ class ShoppingItem: NSObject, NSSecureCoding {
     
     //2 - this decodes our objects; this isn't called explicitly, it will be called with NSKeyedArchiver
     required init(coder decoder: NSCoder) {
-        //this retrieves our saved name object and casts it as a string
-        if let nameObject = decoder.decodeObject(forKey: Keys.name) as? String {
-            self.name = nameObject
-        }
+        self.name = decoder.decodeObject(forKey: Keys.name) as? String ?? "Unknown"
     }
     
     //3 - this encodes our objects (saves them)
