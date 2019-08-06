@@ -33,6 +33,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         cell.textLabel?.text = self.store.shoppingItems[indexPath.row].name
+//        cell.detailTextLabel?.text = self.store.shoppingItems[indexPath.row].serialNumber
         return cell
     }
 }
