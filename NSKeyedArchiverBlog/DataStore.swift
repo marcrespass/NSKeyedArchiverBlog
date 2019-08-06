@@ -10,7 +10,7 @@ import Foundation
 
 class DataStore {
     
-    static let sharedInstnce = DataStore()
+    static let sharedInstance = DataStore()
     private init() {}
     var shoppingItems: [ShoppingItem] = []
 }

@@ -10,7 +10,7 @@ import UIKit
 
 class TableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var store = DataStore.sharedInstnce
+    var store = DataStore.sharedInstance
     
     @IBOutlet weak var tableView: UITableView!
  
@@ -35,16 +35,4 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         cell.textLabel?.text = self.store.shoppingItems[indexPath.row].name
         return cell
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

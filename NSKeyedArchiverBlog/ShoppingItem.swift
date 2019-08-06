@@ -12,41 +12,29 @@ import Foundation
 class ShoppingItem: NSObject, NSSecureCoding {
     static var supportsSecureCoding: Bool = true
 
-    
     //5 - A safe way of naming my decoder key(s)
     struct Keys {
         static let name = "name"
     }
     
-    private var _name = ""
-    
-    override init() {}
-    
+     var name = ""
+
     //4 - my own initializer
     init(name: String) {
-        self._name = name
+        self.name = name
     }
     
     //2 - this decodes our objects; this isn't called explicitly, it will be called with NSKeyedArchiver
     required init(coder decoder: NSCoder) {
         //this retrieves our saved name object and casts it as a string
         if let nameObject = decoder.decodeObject(forKey: Keys.name) as? String {
-            _name = nameObject
+            self.name = nameObject
         }
     }
     
     //3 - this encodes our objects (saves them)
     func encode(with coder: NSCoder) {
         //we are saving the name for the key "name"
-        coder.encode(_name, forKey: Keys.name)
-    }
-    
-    var name: String {
-        get {
-            return _name
-        }
-        set {
-            _name = newValue
-        }
+        coder.encode(self.name, forKey: Keys.name)
     }
 }

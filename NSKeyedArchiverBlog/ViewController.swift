@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var store = DataStore.sharedInstnce
+    var store = DataStore.sharedInstance
 
     @IBOutlet weak var itemTextfield: UITextField!
     
