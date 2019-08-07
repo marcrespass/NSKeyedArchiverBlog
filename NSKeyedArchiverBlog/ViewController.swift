@@ -40,7 +40,7 @@ class ViewController: UIViewController {
         // to encode our data and save it to our file path.  This does everything for encoding and decoding.
         //5 - archive root object saves our array of shopping items (our data) to our filepath url
         do {
-            let archivedData = try NSKeyedArchiver.archivedData(withRootObject: self.store.shoppingItems, requiringSecureCoding: false)
+            let archivedData = try NSKeyedArchiver.archivedData(withRootObject: self.store.shoppingItems, requiringSecureCoding: true)
             try archivedData.write(to: URL(fileURLWithPath: self.filePath))
         } catch {
             fatalError(error.localizedDescription)
@@ -53,8 +53,8 @@ class ViewController: UIViewController {
         if FileManager.default.fileExists(atPath: filePath) == false { return }
         do {
             let fileURL = URL(fileURLWithPath: self.filePath)
-
             let archivedData = try Data(contentsOf: fileURL)
+            
             if let ourData = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, ShoppingItem.self], from: archivedData) as? [ShoppingItem] {
                 self.store.shoppingItems = ourData
             }
